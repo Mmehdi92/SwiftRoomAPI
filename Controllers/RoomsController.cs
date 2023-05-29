@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SwiftRoomAPI.Contracts;
 using SwiftRoomAPI.Data;
+using SwiftRoomAPI.Models.Room;
 
 namespace SwiftRoomAPI.Controllers
 {
@@ -13,53 +16,63 @@ namespace SwiftRoomAPI.Controllers
     [ApiController]
     public class RoomsController : ControllerBase
     {
-        private readonly SwiftRoomDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly IRoomsRepository _roomsRepository;
 
-        public RoomsController(SwiftRoomDbContext context)
+        public RoomsController(IMapper mapper, IRoomsRepository roomsRepository)
         {
-            _context = context;
+            this._mapper = mapper;
+            this._roomsRepository = roomsRepository;
         }
 
         // GET: api/Rooms
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Room>>> GetRooms()
+        public async Task<ActionResult<IEnumerable<GetRoomDto>>> GetRooms()
         {
-            return await _context.Rooms.ToListAsync();
+            var rooms = await _roomsRepository.GetAllAsync();
+            var records = _mapper.Map<List<GetRoomDto>>(rooms);
+            return Ok(records);
         }
 
         // GET: api/Rooms/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Room>> GetRoom(int id)
+        public async Task<ActionResult<RoomDto>> GetRoom(int id)
         {
-            var room = await _context.Rooms.FindAsync(id);
-
+            var room = await _roomsRepository.GetDetailsAsync(id);
             if (room == null)
             {
                 return NotFound();
             }
-
-            return room;
+            var roomDto = _mapper.Map<RoomDto>(room);
+            return Ok(roomDto);
         }
 
         // PUT: api/Rooms/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRoom(int id, Room room)
+        public async Task<IActionResult> PutRoom(int id, UpDateRoomDto updateRoomDto)
         {
-            if (id != room.Id)
+            if (id != updateRoomDto.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(room).State = EntityState.Modified;
+            //_context.Entry(room).State = EntityState.Modified;
+
+            var room = await _roomsRepository.GetAsync(id);
+            if (room == null)
+            {
+                return NotFound();
+            }
+            _mapper.Map(updateRoomDto, room);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _roomsRepository.UpdateAsync(room);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RoomExists(id))
+                if (!await RoomExists(id))
                 {
                     return NotFound();
                 }
@@ -75,11 +88,10 @@ namespace SwiftRoomAPI.Controllers
         // POST: api/Rooms
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Room>> PostRoom(Room room)
+        public async Task<ActionResult<Room>> PostRoom(CreateRoomDto createRoom)
         {
-            _context.Rooms.Add(room);
-            await _context.SaveChangesAsync();
-
+            var room = _mapper.Map<Room>(createRoom);
+            await _roomsRepository.AddAsync(room);
             return CreatedAtAction("GetRoom", new { id = room.Id }, room);
         }
 
@@ -87,21 +99,19 @@ namespace SwiftRoomAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRoom(int id)
         {
-            var room = await _context.Rooms.FindAsync(id);
+            var room = await _roomsRepository.GetAsync(id);
             if (room == null)
             {
                 return NotFound();
             }
 
-            _context.Rooms.Remove(room);
-            await _context.SaveChangesAsync();
-
+            await _roomsRepository.DeleteAsync(id);
             return NoContent();
         }
 
-        private bool RoomExists(int id)
+        private async Task<bool> RoomExists(int id)
         {
-            return _context.Rooms.Any(e => e.Id == id);
+            return await _roomsRepository.Exists(id);
         }
     }
 }

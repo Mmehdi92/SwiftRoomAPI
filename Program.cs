@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using SwiftRoomAPI.Configurations;
+using SwiftRoomAPI.Contracts;
 using SwiftRoomAPI.Data;
+using SwiftRoomAPI.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +25,13 @@ builder.Services.AddCors(options =>
 });
 
 builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console().ReadFrom.Configuration(ctx.Configuration));
+
+builder.Services.AddAutoMapper(typeof(MapperConfig));
+
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IRoomsRepository, RoomsRepository>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
