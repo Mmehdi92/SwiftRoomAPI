@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SwiftRoomAPI.Data;
 
@@ -11,9 +12,11 @@ using SwiftRoomAPI.Data;
 namespace SwiftRoomAPI.Migrations
 {
     [DbContext(typeof(SwiftRoomDbContext))]
-    partial class SwiftRoomDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230529212146_ChangeFkRoomId")]
+    partial class ChangeFkRoomId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

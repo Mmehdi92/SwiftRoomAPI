@@ -11,7 +11,7 @@ namespace SwiftRoomAPI.Data
         public DateTime End { get; set; }
 
         [ForeignKey(nameof(RoomId))]
-        public int RoomId { get; set; }
+        public int? RoomId { get; set; }
         public Room Room { get; set; }
     }
 }
