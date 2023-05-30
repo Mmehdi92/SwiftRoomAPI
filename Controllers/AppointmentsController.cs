@@ -90,7 +90,8 @@ namespace SwiftRoomAPI.Controllers
             var appointment = _mapper.Map<Appointment>(createAppointment);
             await _appointmentRepository.AddAsync(appointment);
 
-            return CreatedAtAction("GetAppointment", new { id = appointment.Id }, appointment);
+            var appointmentDto = _mapper.Map<AppointmentDto>(appointment);
+            return CreatedAtAction("GetAppointment", new { id = appointmentDto.Id }, appointmentDto);
         }
 
         // DELETE: api/Appointments/5
