@@ -54,19 +54,19 @@ namespace SwiftRoomAPI.Controllers
 
 
 
-        [HttpPost]
-        [Route("refreshtoken")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> RefreshToken([FromBody] AuthResponseDto reqeust)
-        {
-            var authResponse = await _authManager.VerifyRefreshToken(reqeust);
-            if (authResponse is null)
-            {
-                return Unauthorized();
-            }
-            return Ok(authResponse);
-        }
+        //[HttpPost]
+        //[Route("refreshtoken")]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //public async Task<ActionResult> RefreshToken([FromBody] AuthResponseDto reqeust)
+        //{
+        //    var authResponse = await _authManager.VerifyRefreshToken(reqeust);
+        //    if (authResponse is null)
+        //    {
+        //        return Unauthorized();
+        //    }
+        //    return Ok(authResponse);
+        //}
     }
 }
