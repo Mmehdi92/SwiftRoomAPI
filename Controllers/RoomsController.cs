@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ namespace SwiftRoomAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles ="User")]
     public class RoomsController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -27,6 +29,7 @@ namespace SwiftRoomAPI.Controllers
 
         // GET: api/Rooms
         [HttpGet]
+       
         public async Task<ActionResult<IEnumerable<GetRoomDto>>> GetRooms()
         {
             var rooms = await _roomsRepository.GetAllAsync();
@@ -50,6 +53,7 @@ namespace SwiftRoomAPI.Controllers
         // PUT: api/Rooms/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+
         public async Task<IActionResult> PutRoom(int id, UpDateRoomDto updateRoomDto)
         {
             if (id != updateRoomDto.Id)
@@ -97,6 +101,7 @@ namespace SwiftRoomAPI.Controllers
 
         // DELETE: api/Rooms/5
         [HttpDelete("{id}")]
+
         public async Task<IActionResult> DeleteRoom(int id)
         {
             var room = await _roomsRepository.GetAsync(id);

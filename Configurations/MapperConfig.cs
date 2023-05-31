@@ -2,6 +2,7 @@
 using SwiftRoomAPI.Data;
 using SwiftRoomAPI.Models.Appointment;
 using SwiftRoomAPI.Models.Room;
+using SwiftRoomAPI.Models.Users;
 
 namespace SwiftRoomAPI.Configurations
 {
@@ -19,6 +20,8 @@ namespace SwiftRoomAPI.Configurations
             CreateMap<Appointment, AppointmentDto>().ReverseMap();
             CreateMap<Appointment, CreateAppointmentDto>().ReverseMap();
             CreateMap<Appointment, UpdateAppointmentDto>().ReverseMap();
+
+            CreateMap<ApiUserDto, ApiUser>().ReverseMap();
 
         }
     }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,7 @@ namespace SwiftRoomAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AppointmentsController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -96,6 +99,8 @@ namespace SwiftRoomAPI.Controllers
 
         // DELETE: api/Appointments/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
+
         public async Task<IActionResult> DeleteAppointment(int id)
         {
             var appointment = await _appointmentRepository.GetAsync(id);
