@@ -9,13 +9,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SwiftRoomAPI.Contracts;
 using SwiftRoomAPI.Data;
+using SwiftRoomAPI.Exceptions;
 using SwiftRoomAPI.Models.Room;
 
 namespace SwiftRoomAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles ="User")]
+    [Authorize(Roles = "User")]
     public class RoomsController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -29,25 +30,43 @@ namespace SwiftRoomAPI.Controllers
 
         // GET: api/Rooms
         [HttpGet]
-       
+
         public async Task<ActionResult<IEnumerable<GetRoomDto>>> GetRooms()
         {
-            var rooms = await _roomsRepository.GetAllAsync();
-            var records = _mapper.Map<List<GetRoomDto>>(rooms);
-            return Ok(records);
+            try
+            {
+                var rooms = await _roomsRepository.GetAllAsync();
+                var records = _mapper.Map<List<GetRoomDto>>(rooms);
+                return Ok(records);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+
         }
 
         // GET: api/Rooms/5
         [HttpGet("{id}")]
         public async Task<ActionResult<RoomDto>> GetRoom(int id)
         {
-            var room = await _roomsRepository.GetDetailsAsync(id);
-            if (room == null)
+            try
             {
-                return NotFound();
+                var room = await _roomsRepository.GetDetailsAsync(id);
+                if (room == null)
+                {
+                    return NotFound();
+                }
+                var roomDto = _mapper.Map<RoomDto>(room);
+                return Ok(roomDto);
             }
-            var roomDto = _mapper.Map<RoomDto>(room);
-            return Ok(roomDto);
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+
         }
 
         // PUT: api/Rooms/5
@@ -66,6 +85,7 @@ namespace SwiftRoomAPI.Controllers
             var room = await _roomsRepository.GetAsync(id);
             if (room == null)
             {
+                //throw new NotFoundException(nameof(PutRoom), id);
                 return NotFound();
             }
             _mapper.Map(updateRoomDto, room);

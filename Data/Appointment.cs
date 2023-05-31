@@ -14,6 +14,10 @@ namespace SwiftRoomAPI.Data
         public int? RoomId { get; set; }
         public Room Room { get; set; }
 
+        [ForeignKey(nameof(ApiUserId))]
+        public string ApiUserId { get; set; }   
+        public ApiUser ApiUser { get; set; }
+
     
     }
 }

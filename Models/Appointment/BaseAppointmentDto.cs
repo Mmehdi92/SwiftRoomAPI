@@ -4,6 +4,7 @@ namespace SwiftRoomAPI.Models.Appointment
 {
     public abstract class BaseAppointmentDto
     {
+        public string ApiUserId { get; set; }
         [Required]
         public string Title { get; set; }
         public string Description { get; set; }

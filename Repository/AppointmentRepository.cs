@@ -11,11 +11,20 @@ namespace SwiftRoomAPI.Repository
 
         public AppointmentRepository(SwiftRoomDbContext swiftRoomDbContext) : base(swiftRoomDbContext)
         {
-        
+
             this._swiftRoomDbContext = swiftRoomDbContext;
         }
 
-      // task return user + appointments
-      //task return user + reservations
+        public async Task<List<Appointment>> GetAppointmentFromuser(string id)
+        {
+            return await _swiftRoomDbContext.Appointments.Include(q => q.ApiUser)
+            .Where(q => q.ApiUserId == id)
+            .ToListAsync();
+        }
+
+        // task return user + appointments
+
+
+        //task return user + reservations
     }
 }

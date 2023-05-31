@@ -6,6 +6,7 @@ using Serilog;
 using SwiftRoomAPI.Configurations;
 using SwiftRoomAPI.Contracts;
 using SwiftRoomAPI.Data;
+using SwiftRoomAPI.Middleware;
 using SwiftRoomAPI.Repository;
 using System.Text;
 
@@ -71,6 +72,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();

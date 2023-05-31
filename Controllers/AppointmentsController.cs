@@ -16,7 +16,7 @@ namespace SwiftRoomAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class AppointmentsController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -46,8 +46,20 @@ namespace SwiftRoomAPI.Controllers
             {
                 return NotFound();
             }
-            return Ok(_mapper.Map<AppointmentDto>(appointment));  
+            return Ok(_mapper.Map<AppointmentDto>(appointment));
         }
+
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<List<AppointmentDto>>> GetAppointmentByUser(string userId)
+        {
+            var appointments = await _appointmentRepository.GetAppointmentFromuser(userId);
+            if (appointments == null)
+            {
+                return NotFound();
+            }
+            return Ok(_mapper.Map<List<AppointmentDto>>(appointments));
+        }
+
 
         // PUT: api/Appointments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -99,7 +111,7 @@ namespace SwiftRoomAPI.Controllers
 
         // DELETE: api/Appointments/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
 
         public async Task<IActionResult> DeleteAppointment(int id)
         {
