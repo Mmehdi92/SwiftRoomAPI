@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using SwiftRoomAPI.Data;
+using SwiftRoomAPI.Models;
 using SwiftRoomAPI.Models.Appointment;
+using SwiftRoomAPI.Models.Reservation;
 using SwiftRoomAPI.Models.Room;
 using SwiftRoomAPI.Models.Users;
 
@@ -21,6 +23,11 @@ namespace SwiftRoomAPI.Configurations
             CreateMap<Appointment, CreateAppointmentDto>().ReverseMap();
             CreateMap<Appointment, UpdateAppointmentDto>().ReverseMap();
 
+            //Reservation Dto Mapping
+            CreateMap<Reservation, ReservationDto>().ReverseMap();
+            CreateMap<Reservation, UpdateReservationDto>().ReverseMap();
+
+            //User Dto Mapping
             CreateMap<ApiUserDto, ApiUser>().ReverseMap();
 
         }

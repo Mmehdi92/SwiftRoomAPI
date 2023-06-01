@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SwiftRoomAPI.Data.Configuration;
+using SwiftRoomAPI.Data;
 
 namespace SwiftRoomAPI.Data
 {
@@ -24,5 +25,7 @@ namespace SwiftRoomAPI.Data
             modelBuilder.ApplyConfiguration(new RoomConfiguration());
 
         }
+
+        public DbSet<SwiftRoomAPI.Data.Reservation> Reservation { get; set; }
     }
 }

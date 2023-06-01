@@ -28,7 +28,7 @@ namespace SwiftRoomAPI.Controllers
             this._appointmentRepository = appointmentRepository;
         }
 
-        // GET: api/Appointments
+       
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetAppointments()
         {
@@ -37,7 +37,7 @@ namespace SwiftRoomAPI.Controllers
 
         }
 
-        // GET: api/Appointments/5
+        
         [HttpGet("{id}")]
         public async Task<ActionResult<AppointmentDto>> GetAppointment(int id)
         {
@@ -61,8 +61,6 @@ namespace SwiftRoomAPI.Controllers
         }
 
 
-        // PUT: api/Appointments/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAppointment(int id, AppointmentDto appointmentDto)
         {
@@ -70,8 +68,6 @@ namespace SwiftRoomAPI.Controllers
             {
                 return BadRequest();
             }
-
-            //_context.Entry(appointment).State = EntityState.Modified;
             var appointment = await _appointmentRepository.GetAsync(id);
             
             if(appointment is null)
@@ -97,8 +93,6 @@ namespace SwiftRoomAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Appointments
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Appointment>> PostAppointment(CreateAppointmentDto createAppointment)
         {
@@ -109,7 +103,6 @@ namespace SwiftRoomAPI.Controllers
             return CreatedAtAction("GetAppointment", new { id = appointmentDto.Id }, appointmentDto);
         }
 
-        // DELETE: api/Appointments/5
         [HttpDelete("{id}")]
         //[Authorize(Roles = "Administrator")]
 
