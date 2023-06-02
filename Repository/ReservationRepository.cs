@@ -21,5 +21,9 @@ namespace SwiftRoomAPI.Repository
                 .Where(q => q.ApiUserId == userId).ToListAsync();
             return reservations;
         }
+
+      
+
+        
     }
 }
