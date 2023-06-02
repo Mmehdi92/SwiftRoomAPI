@@ -77,7 +77,7 @@ if (app.Environment.IsDevelopment())
 //app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseSerilogRequestLogging();
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
