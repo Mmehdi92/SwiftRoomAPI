@@ -47,8 +47,6 @@ namespace SwiftRoomAPI.Repository
             {
                 Token = token,
                 UserId = _user.Id,
-             
-                
             };
         }
 
@@ -123,6 +121,6 @@ namespace SwiftRoomAPI.Repository
                 );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+        } 
     }
 }
