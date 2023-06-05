@@ -49,8 +49,10 @@ namespace SwiftRoomAPI.Repository
 
         public async Task UpdateAsync(T entity)
         {
-           _swiftRoomDbContext.Update(entity);
-           await _swiftRoomDbContext.SaveChangesAsync();
+            _swiftRoomDbContext.Attach(entity);
+            _swiftRoomDbContext.Update(entity);
+            await _swiftRoomDbContext.SaveChangesAsync();
         }
+
     }
 }

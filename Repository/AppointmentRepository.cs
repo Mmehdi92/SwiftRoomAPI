@@ -15,6 +15,7 @@ namespace SwiftRoomAPI.Repository
             this._swiftRoomDbContext = swiftRoomDbContext;
         }
 
+        // task return user + appointments
         public async Task<List<Appointment>> GetAppointmentFromuser(string id)
         {
             return await _swiftRoomDbContext.Appointments.Include(q => q.ApiUser)
@@ -22,7 +23,7 @@ namespace SwiftRoomAPI.Repository
             .ToListAsync();
         }
 
-        // task return user + appointments
+    
 
 
         //task return user + reservations

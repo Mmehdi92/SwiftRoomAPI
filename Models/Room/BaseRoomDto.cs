@@ -10,4 +10,3 @@ namespace SwiftRoomAPI.Models.Room
     }
 
 }
-
