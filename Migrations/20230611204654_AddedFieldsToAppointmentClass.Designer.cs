@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SwiftRoomAPI.Data;
 
@@ -11,9 +12,11 @@ using SwiftRoomAPI.Data;
 namespace SwiftRoomAPI.Migrations
 {
     [DbContext(typeof(SwiftRoomDbContext))]
-    partial class SwiftRoomDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230611204654_AddedFieldsToAppointmentClass")]
+    partial class AddedFieldsToAppointmentClass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace SwiftRoomAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "965a8d41-ec6b-4223-ad93-fcc7e5deb8cb",
+                            Id = "25139862-401e-4b48-b97e-a8a66e7bd3e0",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "d8520119-7f75-4386-acc8-424211c1b748",
+                            Id = "6e213399-f083-47d0-8282-5948a1af9399",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -260,8 +263,8 @@ namespace SwiftRoomAPI.Migrations
                     b.Property<DateTime>("Begin")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("BeginTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("BeginTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -269,8 +272,8 @@ namespace SwiftRoomAPI.Migrations
                     b.Property<DateTime>("End")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("EndTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("RoomId")
                         .HasColumnType("int");
