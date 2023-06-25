@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SwiftRoomAPI.Data;
 
@@ -11,9 +12,11 @@ using SwiftRoomAPI.Data;
 namespace SwiftRoomAPI.Migrations
 {
     [DbContext(typeof(SwiftRoomDbContext))]
-    partial class SwiftRoomDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230614154649_.")]
+    partial class _
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace SwiftRoomAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fddfd541-8a3a-4d2a-ae1f-a0e75dd4e71f",
+                            Id = "4deb4ce8-861e-45e8-8600-d97c98d5fedd",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "f8738ab1-7bc1-477e-a239-ded3fbfee2cf",
+                            Id = "3befe20f-e9ad-4f3f-bfba-29f91c1677dd",
                             Name = "User",
                             NormalizedName = "USER"
                         });

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,7 @@ namespace SwiftRoomAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "User")]
     public class ReservationsController : ControllerBase
     {
         private readonly IReservationRepository _reservationRepository;
@@ -71,7 +74,7 @@ namespace SwiftRoomAPI.Controllers
                 return NotFound();
             }
 
-            _mapper.Map<ReservationDto>(reservation);
+            _mapper.Map(updateReservationDto, reservation);
 
             try
             {
@@ -92,16 +95,45 @@ namespace SwiftRoomAPI.Controllers
             return NoContent();
         }
 
+        //[HttpPost]
+        //public async Task<ActionResult<Reservation>> PostReservation(ReservationDto createReservation)
+        //{
+
+        //    var reservation = _mapper.Map<Reservation>(createReservation);
+        //    await _reservationRepository.AddAsync(reservation);
+
+        //    var reservationDto = _mapper.Map<ReservationDto>(reservation);
+        //    return CreatedAtAction("GetReservation", new { id = reservation.Id }, reservationDto);
+        //}
+
+
         [HttpPost]
-        public async Task<ActionResult<Reservation>> PostReservation(ReservationDto createReservation)
+        public async Task<IActionResult> CreateReservation([FromBody] Reservation reservation)
         {
+            try
+            {
+                bool isAvailable =  _reservationRepository.IsTimeSlotAvailable(reservation.StartTime, reservation.EndTime);
 
-            var reservation = _mapper.Map<Reservation>(createReservation);
-            await _reservationRepository.AddAsync(reservation);
+                if (!isAvailable)
+                {
+                    return BadRequest("The specified time slot is already booked.");
+                }
 
-            var reservationDto = _mapper.Map<ReservationDto>(reservation);
-            return CreatedAtAction("GetReservation", new { id = reservation.Id }, reservationDto);
+                await _reservationRepository.AddReservationUnique(reservation);
+
+                return Ok(reservation);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest($"Invalid request: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while creating the reservation: {ex.Message}");
+            }
         }
+
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReservation(int id)

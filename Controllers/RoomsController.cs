@@ -16,7 +16,7 @@ namespace SwiftRoomAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "User")]
+    [Authorize(Roles = "User")]
     public class RoomsController : ControllerBase
     {
         private readonly IMapper _mapper;
